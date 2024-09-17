@@ -1,25 +1,55 @@
 <section
-  class="mx-auto border-white/20  border-t 2xl:max-w-7xl bg-black border-b justify-center lg:fixed lg:z-50 w-full">
+  class="mx-auto border-white/20 border-t 2xl:max-w-7xl bg-black border-b justify-center lg:fixed lg:z-50 w-full"
+>
   <div class="mx-auto bg-black justify-center w-full">
     <div
-      class="mx-auto border-white/20  border-x max-w-7xl flex flex-col lg:flex-row lg:items-center lg:justify-between w-full">
+      class="mx-auto border-white/20 border-x max-w-7xl flex flex-col lg:flex-row lg:items-center lg:justify-between w-full"
+    >
       <div
-        class="text-white text-center items-center w-full flex flex-col justify-between md:px-0 sm:flex-row sm:px-8">
+        class="text-white text-center items-center w-full flex flex-col justify-evenly md:px-0 sm:flex-row sm:px-8"
+      >
+        <div class="flex flex-row lg:justify-start justify-evenly">
+          <a
+            href="/"
+            class="text-white text-m font-display inline-flex items-center md:px-8 md:text-center py-4 uppercase"
+            ><span>ESF3RA</span>
+          </a>
+          <img class="w-1/6" src="/public/avatars/esf3ra_logo.svg" alt="Icon description" />
+        </div>
+
         <a
-          href="https://www.lexingtonthemes.com"
-          class="text-white text-xs font-display inline-flex items-center md:px-8 md:text-center py-4 uppercase"
-          ><span>ASTROMAX ⏤ By Lexington Themes &nbsp; &rarr;</span>
-        </a>
-        <a
-          href="https://github.com/michael-andreuzza/astromax"
+          href="https://www.instagram.com/esf3ra"
+          onclick="openInstagram('esf3ra'); return false;"
           class="w-full bg-white duration-200 font-display hover:bg-black hover:text-white lg:ml-auto lg:w-auto px-6 py-4 sm:rounded-full text-black text-center text-xs uppercase"
-          >Github</a
+          >Instagram</a
         ><a
           href="mailto:your@name.com"
-          class="w-full bg-orange  duration-200 font-display hover:bg-blacktext-white lg:w-auto px-6 py-4 sm:rounded-full text-black hover:text-white text-center text-xs uppercase"
-          >Get a quote</a
+          class="w-full bg-orange duration-200 font-display hover:bg-blacktext-white lg:w-auto px-6 py-4 sm:rounded-full text-black hover:text-white text-center text-xs uppercase"
+          >Entradas</a
         >
       </div>
     </div>
   </div>
 </section>
+
+<script>
+  function openInstagram(username) {
+    // The deep link to open Instagram
+    var appLink = "instagram://user?username=" + username;
+
+    // Try to open the Instagram app
+    var startTime = Date.now();
+    window.location.href = appLink;
+
+    // Fallback to web if app doesn't open after a short delay
+    setTimeout(function () {
+      // Calculate elapsed time
+      var elapsedTime = Date.now() - startTime;
+
+      // If less than 2 seconds have passed, the app probably didn't open, so fallback to web
+      if (elapsedTime < 2000) {
+        window.location.href = "https://www.instagram.com/" + username;
+      }
+    }, 1500); // Adjust delay if necessary
+  }
+</script>
