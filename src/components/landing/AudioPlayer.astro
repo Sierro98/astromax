@@ -1,0 +1,157 @@
+---
+// AudioPlayer.astro
+const { song, id } = Astro.props;
+---
+
+<style>
+  .audio-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  .play-pause {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+    color: #50c878;
+    transition: color 0.3s ease;
+    text-shadow:
+      0 0 5px rgba(80, 200, 120, 0.7),
+      0 0 10px rgba(80, 200, 120, 0.6);
+  }
+
+  .play-pause:hover {
+    color: #34d399;
+  }
+
+  .progress-bar {
+    position: relative;
+    width: 200px;
+    height: 5px;
+    background-color: #1a1a1a;
+    border-radius: 2.5px;
+    box-shadow:
+      0 0 15px rgba(80, 200, 120, 0.75),
+      0 0 25px rgba(80, 200, 120, 0.6);
+    margin-top: 10px;
+    cursor: pointer;
+  }
+
+  .progress {
+    background-color: #50c878;
+    height: 100%;
+    border-radius: 2.5px;
+    width: 0%;
+    transition: width 0.1s ease;
+  }
+
+  .progress-dot {
+    position: absolute;
+    top: -4px;
+    left: 0;
+    width: 12px;
+    height: 12px;
+    background-color: #50c878;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(80, 200, 120, 0.75);
+    transform: translateX(-50%);
+    cursor: pointer;
+  }
+</style>
+
+<div class="audio-container pt-2" data-message={id}>
+  <!-- Progress bar -->
+  <div class="progress-bar" id="progressBar">
+    <div class="progress" id="progress"></div>
+    <div class="progress-dot" id="progressDot"></div>
+  </div>
+  <button class="play-pause pt-5" id="playPauseBtn">▶️</button>
+
+  <audio id="audio" src={song}></audio>
+</div>
+
+<script>
+  class AudioPlayer extends HTMLElement {
+    connectedCallback() {
+      const audio = document.getElementById(`audio-${this.dataset.id}`) as HTMLAudioElement;
+      const playPauseBtn = document.getElementById(`playPauseBtn-${this.dataset.id}`);
+      const progress = document.getElementById(`progress-${this.dataset.id}`);
+      const progressDot = document.getElementById(`progressDot-${this.dataset.id}`);
+      const progressBar = document.getElementById(`progressBar-${this.dataset.id}`);
+
+      let isDragging = false;
+
+      // Toggle play/pause
+      playPauseBtn.addEventListener("click", () => {
+        if (audio.paused) {
+          audio.play();
+          playPauseBtn.textContent = "⏸"; // Pause icon
+        } else {
+          audio.pause();
+          playPauseBtn.textContent = "▶️"; // Play icon
+        }
+      });
+
+      // Update progress bar and dot as the audio plays
+      audio.addEventListener("timeupdate", () => {
+        if (!isDragging) {
+          const percentage = (audio.currentTime / audio.duration) * 100;
+          updateProgress(percentage);
+        }
+      });
+
+      // Function to update progress bar and dot
+      function updateProgress(percentage) {
+        progress.style.width = percentage + "%";
+        progressDot.style.left = percentage + "%";
+      }
+
+      // Function to seek in audio
+      function seek(e) {
+        const progressBarRect = progressBar.getBoundingClientRect();
+        const offsetX = e.pageX - progressBarRect.left;
+        const percentage = (offsetX / progressBarRect.width) * 100;
+        audio.currentTime = (percentage / 100) * audio.duration;
+        updateProgress(percentage);
+      }
+
+      // Mouse events for dragging
+      progressBar.addEventListener("mousedown", (e) => {
+        isDragging = true;
+        seek(e);
+      });
+
+      document.addEventListener("mousemove", (e) => {
+        if (isDragging) seek(e);
+      });
+
+      document.addEventListener("mouseup", () => {
+        isDragging = false;
+      });
+
+      // Touch events for mobile support
+      progressBar.addEventListener("touchstart", (e) => {
+        isDragging = true;
+        seek(e.touches[0]);
+      });
+
+      document.addEventListener("touchmove", (e) => {
+        if (isDragging) seek(e.touches[0]);
+      });
+
+      document.addEventListener("touchend", () => {
+        isDragging = false;
+      });
+
+      // Reset when audio ends
+      audio.addEventListener("ended", () => {
+        playPauseBtn.textContent = "▶️"; // Reset to play icon
+        updateProgress(0); // Reset progress bar and dot
+      });
+    }
+  }
+</script>

@@ -67,3 +67,11 @@
     0 0 20px rgba(128, 0, 128, 0.5), 
     0 0 40px rgba(128, 0, 128, 0.4);
 }
+
+.neon-emerald {
+  text-shadow: 
+    0 0 5px rgba(80, 200, 120, 0.7),   /* closest glow */
+    0 0 10px rgba(80, 200, 120, 0.6),  /* medium glow */
+    0 0 20px rgba(80, 200, 120, 0.5),  /* far glow */
+    0 0 40px rgba(80, 200, 120, 0.4);  /* faint distant glow */
+}

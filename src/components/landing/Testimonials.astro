@@ -1,23 +1,22 @@
 ---
-import MediaPlayer from "./MediaPlayer";
+import AudioPlayer from "./AudioPlayer.astro";
 ---
 
 <div
   class="text-white text-xs gap-3 gap-y-12 grid grid-cols-1 md:grid-cols-3 mx-auto p-8 sm:grid-cols-2"
 >
   <div class="flex flex-col justify-between h-full">
-    <p class="text-purple-500">
+    <p class="text-emerald-500">
       John seamlessly merges design and coding, creating polished designs that strike a perfect
       balance between trends and originality. His approach of crafting designs directly in code
       yields exceptional results, surpassing expectations.
     </p>
     <div class="mt-3">
-      <span class="block font-semibold mt-3">Emily Reynolds</span>
-      <span class="block text-eagle">CEO of Swift Designworks</span>
+      <AudioPlayer song="/public/audio/Creative Technology Showreel.mp3" id="1" client:load />
     </div>
   </div>
   <div class="flex flex-col justify-between h-full">
-    <p class="text-purple-300">
+    <p class="text-emerald-300">
       Mark has an exceptional eye for design, and collaborating with him has been an absolute
       delight. I am looking forward to partnering with him on upcoming projects. I wholeheartedly
       endorse him to anyone in search of exceptional, top-notch work.
@@ -28,14 +27,13 @@ import MediaPlayer from "./MediaPlayer";
     </div>
   </div>
   <div class="flex flex-col justify-between h-full">
-    <p class="text-purple-100">
+    <p class="text-emerald-100">
       Ethan has been an invaluable asset in the realm of design, and I struggled to keep pace with
       his work speed during our collaboration. His designs are sleek, and he consistently delivers
       substantial value; he continuously refines his designs and introduces enhancements.
     </p>
     <div class="mt-3">
-      <span class="block font-semibold mt-3">Gabriel Maritinez</span>
-      <span class="block text-eagle">Innovator at PixelPerfect Creations</span>
+      <AudioPlayer song="/public/audio/Night Detective Music.mp3" id="2" client:load />
     </div>
   </div>
 </div>
