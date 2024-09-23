@@ -1,4 +1,11 @@
 ---
+import songs from "../../types/songs";
+
+const song: songs = {
+  title: "Creative Technology Showreel",
+  src: "/public/audio/Creative Technology Showreel.mp3",
+};
+
 import AudioPlayer from "./AudioPlayer.astro";
 ---
 
@@ -12,7 +19,7 @@ import AudioPlayer from "./AudioPlayer.astro";
       yields exceptional results, surpassing expectations.
     </p>
     <div class="mt-3">
-      <AudioPlayer song="/public/audio/Creative Technology Showreel.mp3" client:load/>
+      <AudioPlayer songs={song} client:load />
     </div>
   </div>
   <div class="flex flex-col justify-between h-full">
@@ -32,8 +39,6 @@ import AudioPlayer from "./AudioPlayer.astro";
       his work speed during our collaboration. His designs are sleek, and he consistently delivers
       substantial value; he continuously refines his designs and introduces enhancements.
     </p>
-    <div class="mt-3">
-
-    </div>
+    <div class="mt-3"></div>
   </div>
 </div>
