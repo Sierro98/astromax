@@ -1,6 +1,6 @@
 ---
 // AudioPlayer.astro
-const { song, id } = Astro.props;
+const { song } = Astro.props;
 ---
 
 <style>
@@ -63,7 +63,7 @@ const { song, id } = Astro.props;
   }
 </style>
 
-<div class="audio-container pt-2" data-message={id}>
+<div class="audio-container pt-2">
   <!-- Progress bar -->
   <div class="progress-bar" id="progressBar">
     <div class="progress" id="progress"></div>
@@ -75,83 +75,79 @@ const { song, id } = Astro.props;
 </div>
 
 <script>
-  class AudioPlayer extends HTMLElement {
-    connectedCallback() {
-      const audio = document.getElementById(`audio-${this.dataset.id}`) as HTMLAudioElement;
-      const playPauseBtn = document.getElementById(`playPauseBtn-${this.dataset.id}`);
-      const progress = document.getElementById(`progress-${this.dataset.id}`);
-      const progressDot = document.getElementById(`progressDot-${this.dataset.id}`);
-      const progressBar = document.getElementById(`progressBar-${this.dataset.id}`);
+  const audio = document.getElementById("audio") as HTMLAudioElement;
+  const playPauseBtn = document.getElementById("playPauseBtn");
+  const progress = document.getElementById("progress");
+  const progressDot = document.getElementById("progressDot");
+  const progressBar = document.getElementById("progressBar");
 
-      let isDragging = false;
+  let isDragging = false;
 
-      // Toggle play/pause
-      playPauseBtn.addEventListener("click", () => {
-        if (audio.paused) {
-          audio.play();
-          playPauseBtn.textContent = "⏸"; // Pause icon
-        } else {
-          audio.pause();
-          playPauseBtn.textContent = "▶️"; // Play icon
-        }
-      });
-
-      // Update progress bar and dot as the audio plays
-      audio.addEventListener("timeupdate", () => {
-        if (!isDragging) {
-          const percentage = (audio.currentTime / audio.duration) * 100;
-          updateProgress(percentage);
-        }
-      });
-
-      // Function to update progress bar and dot
-      function updateProgress(percentage) {
-        progress.style.width = percentage + "%";
-        progressDot.style.left = percentage + "%";
-      }
-
-      // Function to seek in audio
-      function seek(e) {
-        const progressBarRect = progressBar.getBoundingClientRect();
-        const offsetX = e.pageX - progressBarRect.left;
-        const percentage = (offsetX / progressBarRect.width) * 100;
-        audio.currentTime = (percentage / 100) * audio.duration;
-        updateProgress(percentage);
-      }
-
-      // Mouse events for dragging
-      progressBar.addEventListener("mousedown", (e) => {
-        isDragging = true;
-        seek(e);
-      });
-
-      document.addEventListener("mousemove", (e) => {
-        if (isDragging) seek(e);
-      });
-
-      document.addEventListener("mouseup", () => {
-        isDragging = false;
-      });
-
-      // Touch events for mobile support
-      progressBar.addEventListener("touchstart", (e) => {
-        isDragging = true;
-        seek(e.touches[0]);
-      });
-
-      document.addEventListener("touchmove", (e) => {
-        if (isDragging) seek(e.touches[0]);
-      });
-
-      document.addEventListener("touchend", () => {
-        isDragging = false;
-      });
-
-      // Reset when audio ends
-      audio.addEventListener("ended", () => {
-        playPauseBtn.textContent = "▶️"; // Reset to play icon
-        updateProgress(0); // Reset progress bar and dot
-      });
+  // Toggle play/pause
+  playPauseBtn.addEventListener("click", () => {
+    if (audio.paused) {
+      audio.play();
+      playPauseBtn.textContent = "⏸"; // Pause icon
+    } else {
+      audio.pause();
+      playPauseBtn.textContent = "▶️"; // Play icon
     }
+  });
+
+  // Update progress bar and dot as the audio plays
+  audio.addEventListener("timeupdate", () => {
+    if (!isDragging) {
+      const percentage = (audio.currentTime / audio.duration) * 100;
+      updateProgress(percentage);
+    }
+  });
+
+  // Function to update progress bar and dot
+  function updateProgress(percentage) {
+    progress.style.width = percentage + "%";
+    progressDot.style.left = percentage + "%";
   }
+
+  // Function to seek in audio
+  function seek(e) {
+    const progressBarRect = progressBar.getBoundingClientRect();
+    const offsetX = e.pageX - progressBarRect.left;
+    const percentage = (offsetX / progressBarRect.width) * 100;
+    audio.currentTime = (percentage / 100) * audio.duration;
+    updateProgress(percentage);
+  }
+
+  // Mouse events for dragging
+  progressBar.addEventListener("mousedown", (e) => {
+    isDragging = true;
+    seek(e);
+  });
+
+  document.addEventListener("mousemove", (e) => {
+    if (isDragging) seek(e);
+  });
+
+  document.addEventListener("mouseup", () => {
+    isDragging = false;
+  });
+
+  // Touch events for mobile support
+  progressBar.addEventListener("touchstart", (e) => {
+    isDragging = true;
+    seek(e.touches[0]);
+  });
+
+  document.addEventListener("touchmove", (e) => {
+    if (isDragging) seek(e.touches[0]);
+  });
+
+  document.addEventListener("touchend", () => {
+    isDragging = false;
+  });
+
+  // Reset when audio ends
+  audio.addEventListener("ended", () => {
+    playPauseBtn.textContent = "▶️"; // Reset to play icon
+    updateProgress(0); // Reset progress bar and dot
+  });
 </script>
