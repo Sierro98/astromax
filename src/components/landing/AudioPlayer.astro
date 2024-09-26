@@ -20,7 +20,7 @@ if (!songs || songs.length === 0) {
     background: none;
     border: none;
     cursor: pointer;
-    font-size: 24px;
+    font-size: 26px;
     color: #50c878;
     transition: color 0.3s ease;
     text-shadow:
@@ -34,7 +34,7 @@ if (!songs || songs.length === 0) {
 
   .progress-bar {
     position: relative;
-    width: 200px;
+    width: 85%;
     height: 5px;
     background-color: #1a1a1a;
     border-radius: 2.5px;
@@ -69,7 +69,12 @@ if (!songs || songs.length === 0) {
 
 <div class="audio-container pt-2">
   <!-- Song Title -->
-  <h2 id="songTitle" class="neon-emerald pb-2">{songs.title}</h2>
+  <div>
+    <h2 id="songTitle" class="neon-emerald pb-1">{songs.title}</h2>
+    <h1 id="artistName" class="neon-emerald pb-2 text-base justify-items-start">
+      {songs.artist}
+    </h1>
+  </div>
 
   <!-- Progress bar -->
   <div class="progress-bar" id="progressBar">
@@ -94,6 +99,7 @@ if (!songs || songs.length === 0) {
   const progressDot = document.getElementById("progressDot");
   const progressBar = document.getElementById("progressBar");
   const songTitle = document.getElementById("songTitle");
+  const artistName = document.getElementById("artistName");
   const prevBtn = document.getElementById("prevBtn");
   const nextBtn = document.getElementById("nextBtn");
 
@@ -103,15 +109,21 @@ if (!songs || songs.length === 0) {
   const songs = [
     {
       title: "Creative Technology Showreel",
+      artist: "Checo Alonso",
       src: "/public/audio/Creative Technology Showreel.mp3",
     },
-    { title: "Night Detective Music", src: "/public/audio/Night Detective Music.mp3" },
+    {
+      title: "Night Detective Music - Artist Name",
+      artist: "Carlos Perez",
+      src: "/public/audio/Night Detective Music.mp3",
+    },
   ];
 
   // Function to load a song
   function loadSong(index) {
     audio.src = songs[index].src;
     songTitle.textContent = songs[index].title;
+    artistName.textContent = songs[index].artist;
     audio.play();
     playPauseBtn.textContent = "⏸"; // Change to pause icon
   }
